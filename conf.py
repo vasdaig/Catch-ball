@@ -6,3 +6,7 @@ FPS=60
 platform_width=80
 platform_height=10
 platform_speed=8
+ball_radius = 15
+ball_speed = 5
+balls = []
+RED=(255, 0, 0)

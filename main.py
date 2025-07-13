@@ -2,7 +2,7 @@ import pygame
 import random
 import sys
 
-from conf import WIDTH, HEIGHT, WHITE, BLACK, FPS, platform_width, platform_height, platform_speed
+from conf import *
 
 pygame.init()
 
@@ -19,12 +19,25 @@ running = True
 platform_x = (WIDTH - platform_width) // 2
 platform_y = HEIGHT - platform_height - 10
 
+SPAWN_EVENT = pygame.USEREVENT + 1    # levels
+pygame.time.set_timer(SPAWN_EVENT, 1000)     # 1000 ms
+
 while running:
     screen.fill(WHITE)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == SPAWN_EVENT:
+            x = random.randint(ball_radius, WIDTH - ball_radius)
+            balls.append([x, 0])
+    
+    for ball in balls:
+        ball[1] += ball_speed
+
+    for ball in balls:
+        pygame.draw.circle(screen, RED, (ball[0], ball[1]), ball_radius)
+
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and platform_x > 0:
