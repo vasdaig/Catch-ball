@@ -14,7 +14,9 @@ pygame.display.set_caption("Ловец шаров")
 clock = pygame.time.Clock()
 
 
-
+catch_sound = pygame.mixer.Sound("yes.mp3")
+miss_sound = pygame.mixer.Sound("no.mp3")
+game_over_sound = pygame.mixer.Sound("game_over.mp3")
 
 platform_x = (WIDTH - platform_width) // 2
 platform_y = HEIGHT - platform_height - 10
@@ -60,12 +62,15 @@ while running:
                 platform_x <= ball[0] <= platform_x + platform_width):
                 balls.remove(ball)
                 score += 1
+                catch_sound.play()
 
             elif ball[1] > HEIGHT:
                 balls.remove(ball)
                 missed += 1
+                miss_sound.play()
                 if missed >= max_missed:
                     game_over = True
+                    game_over_sound.play()
 
     for ball in balls:
         pygame.draw.circle(screen, RED, (ball[0], ball[1]), ball_radius)
